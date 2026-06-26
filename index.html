@@ -1,330 +1,622 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LeadVigil - AI-Powered Reddit Lead Generation & Monitoring</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-deep: #0A0C0D; --bg-panel: #14171A; --bg-panel-2: #1A1E21;
-    --paper: #ECE7DA; --paper-dim: #D9D3C2;
-    --amber: #FFAA33; --amber-dim: #8A5E1F;
-    --teal: #3ED9A3; --red: #FF5C5C;
-    --ink: #F2F1ED; --ink-muted: #878D92; --line: rgba(255,255,255,.08);
-  }
-  * { box-sizing: border-box; }
-  body { background: var(--bg-deep); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; position: relative; }
-  
-  /* Animated Scrolling Tech Grid */
-  body::before {
-    content: ''; position: absolute; inset: 0; z-index: -2;
-    background-image: 
-      linear-gradient(to right, rgba(255,170,51,0.04) 1px, transparent 1px), 
-      linear-gradient(to bottom, rgba(255,170,51,0.04) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(ellipse at top, black 20%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse at top, black 20%, transparent 80%);
-    animation: gridScroll 15s linear infinite;
-  }
-  @keyframes gridScroll { 0% { background-position: 0 0; } 100% { background-position: 0 50px; } }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadVigil - AI-Powered Reddit Lead Generation & Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0A0C0D;
+            --bg-panel: #14171A;
+            --bg-panel-2: #1A1E21;
+            --paper: #ECE7DA;
+            --paper-dim: #D9D3C2;
+            --amber: #FFAA33;
+            --amber-dim: #8A5E1F;
+            --teal: #3ED9A3;
+            --red: #FF5C5C;
+            --ink: #F2F1ED;
+            --ink-muted: #878D92;
+            --line: rgba(255, 255, 255, .08);
+        }
 
-  /* Dynamic Aurora Orbs */
-  .orb { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -3; opacity: 0.5; animation: floatOrb 20s infinite ease-in-out alternate; pointer-events: none; }
-  .orb-1 { width: 60vw; height: 60vw; max-width: 500px; max-height: 500px; background: rgba(255,170,51,0.25); top: -10%; left: -10%; }
-  .orb-2 { width: 70vw; height: 70vw; max-width: 600px; max-height: 600px; background: rgba(62,217,163,0.15); top: 20%; right: -15%; animation-delay: -7s; }
-  .orb-3 { width: 50vw; height: 50vw; max-width: 400px; max-height: 400px; background: rgba(255,92,92,0.15); bottom: -10%; left: 10%; animation-delay: -14s; }
-  @keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(3vw, -3vw) scale(1.05); }
-    66% { transform: translate(-3vw, 3vw) scale(0.95); }
-    100% { transform: translate(0, 0) scale(1); }
-  }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-  .disp { font-family: 'Space Grotesk', sans-serif; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  .line-top { border-top: 1px solid var(--line); }
-  .line-bot { border-bottom: 1px solid var(--line); }
+        html {
+            scroll-behavior: smooth;
+        }
 
-  /* Radar Visual */
-  .radar-wrap { position: relative; width: 100%; max-width: 400px; aspect-ratio: 1; margin: 0 auto; }
-  .radar-ring { position: absolute; border: 1px solid rgba(255,170,51,.16); border-radius: 50%; }
-  .radar-face {
-    position: absolute; inset: 0; border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, rgba(255,170,51,.05), transparent 70%);
-    border: 1px solid var(--line); overflow: hidden;
-  }
-  .radar-sweep {
-    position: absolute; inset: 0; border-radius: 50%;
-    background: conic-gradient(from 0deg, rgba(255,170,51,0) 290deg, rgba(255,170,51,.45) 360deg);
-    animation: sweep 4.5s linear infinite;
-  }
-  @keyframes sweep { to { transform: rotate(360deg); } }
-  .blip { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 0 rgba(255,170,51,.6); }
-  .blip::after {
-    content: ''; position: absolute; inset: -8px; border: 1px solid var(--amber); border-radius: 50%; opacity: 0; 
-    animation: ping 4.5s ease-out infinite; animation-delay: var(--delay, 0s);
-  }
-  .blip.t { background: var(--teal); } .blip.t::after { border-color: var(--teal); }
-  @keyframes ping { 0% { opacity: .8; transform: scale(.4); } 25% { opacity: 0; transform: scale(2.4); } 100% { opacity: 0; } }
-  .tag {
-    position: absolute; transform: translate(-50%,-130%); white-space: nowrap;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .04em; color: var(--ink-muted);
-    background: rgba(10,12,13,.85); padding: 2px 6px; border: 1px solid var(--line); border-radius: 4px; backdrop-filter: blur(4px);
-    opacity: 0; animation: fadeTag 4.5s ease-out infinite; animation-delay: var(--delay, 0s);
-  }
-  @media (min-width: 640px) { .tag { font-size: 10px; } .blip { width: 8px; height: 8px; } .blip::after { inset: -10px; } }
-  @keyframes fadeTag { 0% { opacity: 1; } 20% { opacity: 1; } 35% { opacity: 0; } 100% { opacity: 0; } }
+        body {
+            background: var(--bg-deep);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            width: 100%;
+        }
 
-  .crosshair { position: absolute; inset: 0; }
-  .crosshair::before, .crosshair::after { content: ''; position: absolute; background: var(--line); }
-  .crosshair::before { top: 50%; left: 0; right: 0; height: 1px; }
-  .crosshair::after { left: 50%; top: 0; bottom: 0; width: 1px; }
+        /* Animated Scrolling Tech Grid */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-image:
+                linear-gradient(to right, rgba(255, 170, 51, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 170, 51, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at top, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at top, black 20%, transparent 80%);
+            animation: gridScroll 15s linear infinite;
+        }
 
-  .field-card { background: var(--paper); color: #1B1A16; border-radius: 6px; }
+        @keyframes gridScroll {
+            0% {
+                background-position: 0 0;
+            }
 
-  .btn-amber { background: var(--amber); color: #1A1206; box-shadow: 0 4px 14px 0 rgba(255, 170, 51, 0.15); }
-  .btn-amber:hover { background: #FFC266; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255, 170, 51, 0.23); }
-  .btn-amber:active { transform: translateY(0); }
-  .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); backdrop-filter: blur(8px); }
-  .btn-ghost:hover { border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.03); }
+            100% {
+                background-position: 0 50px;
+            }
+        }
 
-  .status-dot { display: inline-block; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); }
+        /* Dynamic Aurora Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -3;
+            opacity: 0.5;
+            animation: floatOrb 20s infinite ease-in-out alternate;
+            pointer-events: none;
+        }
 
-  .num { font-family: 'JetBrains Mono', monospace; color: var(--amber); font-size: 12px; letter-spacing: .05em; opacity: 0.8; }
+        .orb-1 {
+            width: 40vw;
+            height: 40vw;
+            background: rgba(255, 170, 51, 0.25);
+            top: -10%;
+            left: -10%;
+        }
 
-  ::selection { background: rgba(255,170,51,.25); }
-</style>
+        .orb-2 {
+            width: 50vw;
+            height: 50vw;
+            background: rgba(62, 217, 163, 0.15);
+            top: 20%;
+            right: -15%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 35vw;
+            height: 35vw;
+            background: rgba(255, 92, 92, 0.15);
+            bottom: -10%;
+            left: 20%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(5vw, -5vw) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-5vw, 5vw) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .disp {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .line-top {
+            border-top: 1px solid var(--line);
+        }
+
+        .line-bot {
+            border-bottom: 1px solid var(--line);
+        }
+
+        /* radar signature */
+        .radar-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1 / 1;
+        }
+        @media (min-width: 768px) {
+            .radar-wrap {
+                max-width: 440px;
+            }
+        }
+
+        .radar-ring {
+            position: absolute;
+            border: 1px solid rgba(255, 170, 51, .16);
+            border-radius: 50%;
+        }
+
+        .radar-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 170, 51, .05), transparent 70%);
+            border: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(255, 170, 51, 0) 290deg, rgba(255, 170, 51, .45) 360deg);
+            animation: sweep 4.5s linear infinite;
+        }
+
+        @keyframes sweep {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .blip {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--amber);
+            box-shadow: 0 0 0 0 rgba(255, 170, 51, .6);
+        }
+
+        .blip::after {
+            content: '';
+            position: absolute;
+            inset: -9px;
+            border: 1px solid var(--amber);
+            border-radius: 50%;
+            opacity: 0;
+            animation: ping 4.5s ease-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .blip.t {
+            background: var(--teal);
+        }
+
+        .blip.t::after {
+            border-color: var(--teal);
+        }
+
+        @keyframes ping {
+            0% {
+                opacity: .8;
+                transform: scale(.4);
+            }
+
+            25% {
+                opacity: 0;
+                transform: scale(2.4);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .tag {
+            position: absolute;
+            transform: translate(-50%, -130%);
+            white-space: nowrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: .04em;
+            color: var(--ink-muted);
+            background: rgba(10, 12, 13, .7);
+            padding: 2px 6px;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            opacity: 0;
+            animation: fadeTag 4.5s ease-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        @media (min-width: 768px) {
+            .tag {
+                font-size: 10px;
+            }
+        }
+
+        @keyframes fadeTag {
+            0% {
+                opacity: 1;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            35% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .crosshair {
+            position: absolute;
+            inset: 0;
+        }
+
+        .crosshair::before,
+        .crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--line);
+        }
+
+        .crosshair::before {
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+
+        .crosshair::after {
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+        }
+
+        .field-card {
+            background: var(--paper);
+            color: #1B1A16;
+            border-radius: 4px;
+        }
+
+        .btn-amber {
+            background: var(--amber);
+            color: #1A1206;
+        }
+
+        .btn-amber:hover {
+            background: #FFC266;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--ink);
+        }
+
+        .btn-ghost:hover {
+            border-color: rgba(255, 255, 255, .25);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 8px var(--teal);
+        }
+
+        .num {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--amber);
+            font-size: 13px;
+            letter-spacing: .05em;
+        }
+
+        ::selection {
+            background: rgba(255, 170, 51, .25);
+        }
+    </style>
 </head>
-<body class="antialiased selection:bg-amber-500/30">
-  
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
 
-  <!-- Nav -->
-  <nav class="fixed top-0 inset-x-0 z-50 line-bot backdrop-blur-md bg-[#0A0C0D]/80 supports-[backdrop-filter]:bg-[#0A0C0D]/60">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 h-16 sm:h-20 flex items-center justify-between transition-all">
-      <a href="/" class="flex items-center gap-2.5 shrink-0 group">
-        <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-[var(--amber)] flex items-center justify-center transition-transform group-hover:scale-105">
-          <span class="status-dot w-1.5 h-1.5 sm:w-[7px] sm:h-[7px]"></span>
+<body class="antialiased">
+    <div class="overflow-x-clip w-full relative flex flex-col min-h-screen">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-4 left-4 right-4 md:top-0 md:inset-x-0 z-50 md:line-bot backdrop-blur-xl border border-[var(--line)] md:border-x-0 md:border-t-0 rounded-2xl md:rounded-none shadow-2xl transition-all" style="background:rgba(10,12,13,.8);">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 h-12 md:h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 md:gap-2.5 shrink-0">
+                <div class="w-6 h-6 md:w-7 md:h-7 rounded-full border border-[var(--amber)] flex items-center justify-center shrink-0">
+                    <span class="status-dot w-[5px] h-[5px] md:w-[7px] md:h-[7px]"></span>
+                </div>
+                <span class="disp font-semibold tracking-tight text-[14px] md:text-[15px] whitespace-nowrap">LeadVigil</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-[13px] text-[var(--ink-muted)]">
+                <a href="#signal" class="hover:text-[var(--ink)] transition-colors">The Signal</a>
+                <a href="#feed" class="hover:text-[var(--ink)] transition-colors">Live Feed</a>
+                <a href="#pricing" class="hover:text-[var(--ink)] transition-colors">Pricing</a>
+            </div>
+            <div class="flex items-center gap-3 md:gap-5 shrink-0 ml-2">
+                <a href="/login"
+                    class="text-[12px] md:text-[13px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors whitespace-nowrap">Log in</a>
+                <a href="/login"
+                    class="btn-amber text-[11px] md:text-[13px] font-semibold px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-colors whitespace-nowrap">
+                    <span class="hidden sm:inline">Request Console Access</span>
+                    <span class="sm:hidden">Get Access</span>
+                </a>
+            </div>
         </div>
-        <span class="disp font-semibold tracking-tight text-[15px] sm:text-[16px]">LeadVigil</span>
-      </a>
-      <div class="hidden md:flex items-center gap-8 text-[13.5px] font-medium text-[var(--ink-muted)]">
-        <a href="#signal" class="hover:text-[var(--ink)] transition-colors">The Signal</a>
-        <a href="#feed" class="hover:text-[var(--ink)] transition-colors">Live Feed</a>
-        <a href="#pricing" class="hover:text-[var(--ink)] transition-colors">Pricing</a>
-      </div>
-      <div class="flex items-center gap-4 sm:gap-5 shrink-0">
-        <a href="/login" class="text-[13px] sm:text-[14px] font-medium text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">Log in</a>
-        <a href="/login" class="btn-amber text-[12px] sm:text-[13px] font-bold px-4 py-2 sm:px-5 sm:py-2.5 rounded-full transition-all whitespace-nowrap">Console Access</a>
-      </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="max-w-6xl mx-auto px-4 md:px-6 pt-28 md:pt-36 pb-12 md:pb-24 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+        <div>
+            <div class="inline-flex items-center gap-2 mono text-[10px] md:text-[11px] text-[var(--amber)] mb-5 md:mb-7 tracking-wider">
+                <span class="status-dot"></span> MONITORING 5,114 SUBREDDITS IN REAL TIME
+            </div>
+            <h1 class="disp text-[32px] md:text-[40px] leading-[1.1] lg:text-[52px] font-semibold tracking-tight mb-5 md:mb-6">
+                Somewhere on Reddit, someone is describing your product before they know it exists.
+            </h1>
+            <p class="text-[var(--ink-muted)] text-[14px] md:text-[16px] leading-relaxed max-w-md mb-7 md:mb-9">
+                LeadVigil reads public discussions that match your buyer's language, and alerts you instantly —
+                delivered to Telegram before the thread goes cold.
+            </p>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/login"
+                    class="btn-amber px-5 md:px-6 py-3 md:py-3.5 rounded-full text-[13px] md:text-[14px] font-semibold transition-colors">Request
+                    Console Access</a>
+                <a href="/dashboard"
+                    class="btn-ghost px-5 md:px-6 py-3 md:py-3.5 rounded-full text-[13px] md:text-[14px] font-semibold transition-colors">Watch the
+                    Live Feed →</a>
+            </div>
+            <div class="flex items-center gap-4 mt-8 md:mt-10 text-[11px] md:text-[12px] text-[var(--ink-muted)] mono">
+                <span>14-day tracking log, free</span><span class="text-[var(--line)]">·</span><span>No card
+                    required</span>
+            </div>
+        </div>
+
+        <!-- Radar visual -->
+        <div class="flex justify-center lg:justify-end">
+            <div class="radar-wrap">
+                <div class="radar-ring" style="inset:0;"></div>
+                <div class="radar-ring" style="inset:14%;"></div>
+                <div class="radar-ring" style="inset:28%;"></div>
+                <div class="radar-ring" style="inset:42%;"></div>
+                <div class="radar-face">
+                    <div class="crosshair"></div>
+                    <div class="radar-sweep"></div>
+                </div>
+                <div class="blip" style="top:28%; left:62%; --delay:0.35s;"></div>
+                <div class="tag" style="top:28%; left:62%; --delay:0.35s;">r/SaaS · matched: "alternative"</div>
+
+                <div class="blip t" style="top:60%; left:30%; --delay:3.04s;"></div>
+                <div class="tag" style="top:60%; left:30%; --delay:3.04s;">r/Entrepreneur · matched: "tool"</div>
+
+                <div class="blip" style="top:70%; left:68%; --delay:1.72s;"></div>
+                <div class="tag" style="top:70%; left:68%; --delay:1.72s;">r/marketing · matched: "need"</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- The Signal -->
+    <section id="signal" class="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24 line-top">
+        <div class="mb-14 max-w-lg">
+            <span class="mono text-[10px] md:text-[11px] text-[var(--amber)] tracking-wider">THE SIGNAL</span>
+            <h2 class="disp text-[24px] md:text-[30px] sm:text-[36px] font-semibold tracking-tight mt-2 md:mt-3">Three things the radar does.
+                Nothing else.</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-px bg-[var(--line)] rounded-lg overflow-hidden">
+            <div class="bg-[var(--bg-panel)] p-6 md:p-8">
+                <span class="num">01</span>
+                <h3 class="disp text-[17px] md:text-[19px] font-semibold mt-3 md:mt-4 mb-2 md:mb-3">Scan</h3>
+                <p class="text-[var(--ink-muted)] text-[13px] md:text-[14px] leading-relaxed">Reads public Reddit discussions matching
+                    how your buyers actually talk.</p>
+            </div>
+            <div class="bg-[var(--bg-panel)] p-6 md:p-8">
+                <span class="num">02</span>
+                <h3 class="disp text-[17px] md:text-[19px] font-semibold mt-3 md:mt-4 mb-2 md:mb-3">Filter</h3>
+                <p class="text-[var(--ink-muted)] text-[13px] md:text-[14px] leading-relaxed">Matches your configured keywords and
+                    intent phrases the moment a relevant post goes live.</p>
+            </div>
+            <div class="bg-[var(--bg-panel)] p-6 md:p-8">
+                <span class="num">03</span>
+                <h3 class="disp text-[17px] md:text-[19px] font-semibold mt-3 md:mt-4 mb-2 md:mb-3">Alert</h3>
+                <p class="text-[var(--ink-muted)] text-[13px] md:text-[14px] leading-relaxed">Direct Telegram notification with the
+                    link and context, so you can respond with context and start a conversation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live feed preview -->
+    <section id="feed" class="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24 line-top">
+        <div class="flex items-end justify-between mb-10 flex-wrap gap-4">
+            <div>
+                <span class="mono text-[10px] md:text-[11px] text-[var(--amber)] tracking-wider">LIVE FEED — SAMPLE</span>
+                <h2 class="disp text-[24px] md:text-[30px] sm:text-[36px] font-semibold tracking-tight mt-2 md:mt-3">What lands in your
+                    console.</h2>
+            </div>
+            <a href="/dashboard" class="btn-ghost px-4 md:px-5 py-2 md:py-2.5 rounded-full text-[12px] md:text-[13px] font-semibold">Open full console
+                →</a>
+        </div>
+
+        <div class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-xl p-7">
+            <div class="flex items-start justify-between mb-5 flex-wrap gap-3">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="px-2 py-1 md:px-2.5 bg-[var(--bg-panel-2)] border border-[var(--line)] rounded text-[10px] md:text-[11px] mono text-[var(--ink-muted)]">r/Entrepreneur</span>
+                    <span class="mono text-[10px] md:text-[11px] text-[var(--ink-muted)]">2026-06-26 09:14</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="mono text-[10px] md:text-[11px] text-[var(--ink-muted)]">STATUS</span>
+                    <span class="mono text-[11px] md:text-[12px] text-[var(--teal)] ml-1">HIGH INTENT</span>
+                </div>
+            </div>
+            <h3 class="disp text-[17px] md:text-[19px] font-medium mb-3 md:mb-4 leading-snug">"I'm tired of Zapier. Are there any cheaper
+                alternatives that don't break every week?"</h3>
+            <div class="field-card p-4 md:p-5 rounded relative">
+                <span class="mono text-[9px] md:text-[10px] tracking-wider text-[#6B6552] uppercase">Detected Signal</span>
+                <p class="mono text-[12px] md:text-[13px] leading-relaxed mt-2 md:mt-3 text-[#2A271F]">Matched Keyword: alternatives</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24 line-top">
+        <div class="text-center mb-10 md:mb-14">
+            <span class="mono text-[10px] md:text-[11px] text-[var(--amber)] tracking-wider">PRICING</span>
+            <h2 class="disp text-[24px] md:text-[30px] sm:text-[36px] font-semibold tracking-tight mt-2 md:mt-3">One customer pays for the
+                year.</h2>
+            <p class="text-[14px] md:text-[16px] text-[var(--ink-muted)] max-w-xl mx-auto mt-2 md:mt-3">Choose the plan that fits your growth
+                stage. Upgrade or downgrade at any time.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+
+            <!-- Starter -->
+            <div
+                class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-2xl p-6 md:p-8 flex flex-col hover:border-[var(--amber)] transition-colors">
+                <h3 class="disp text-[18px] md:text-[20px] font-semibold mb-1 md:mb-2">Starter</h3>
+                <p class="text-[12px] md:text-[13px] text-[var(--ink-muted)] mb-4 md:mb-6">For individuals exploring Reddit lead generation.
+                </p>
+                <div class="mb-4 md:mb-6">
+                    <span class="disp text-[30px] md:text-[36px] font-bold">$0</span>
+                    <span class="text-[var(--ink-muted)] text-[13px] md:text-[14px]">/mo</span>
+                </div>
+                <a href="/login"
+                    class="w-full text-center block py-2.5 md:py-3 px-4 rounded-lg bg-[var(--bg-panel-2)] text-white text-[12px] md:text-[13px] font-semibold hover:bg-[var(--line)] transition-colors mb-6 md:mb-8">Get
+                    Started Free</a>
+
+                <div class="flex-1">
+                    <ul class="space-y-3 md:space-y-4 text-[12px] md:text-[13px] text-[var(--ink-muted)]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>1</strong> Keyword &
+                                <strong>1</strong> Subreddit</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span>Up to <strong>30</strong> leads/mo</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>7-day</strong> history</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>Instant Telegram
+                                    Alerts</strong></span>
+                        </li>
+                        <li class="flex items-start gap-3 opacity-50">
+                            <span class="text-[var(--ink-muted)]">✕</span> <span>No AI Replies</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Pro -->
+            <div class="relative rounded-2xl p-6 md:p-8 flex flex-col border border-[var(--amber)]"
+                style="background:linear-gradient(180deg, rgba(255,170,51,.07), transparent); box-shadow: 0 0 20px rgba(226, 163, 54, 0.1);">
+                <div
+                    class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--amber)] text-[#1A1206] px-3 py-1 rounded-full text-[10px] md:text-[11px] font-bold tracking-wide uppercase">
+                    Most Popular</div>
+                <h3 class="disp text-[18px] md:text-[20px] font-semibold mb-1 md:mb-2">Pro</h3>
+                <p class="text-[12px] md:text-[13px] text-[var(--ink-muted)] mb-4 md:mb-6">For startups and small teams actively growing.</p>
+                <div class="mb-4 md:mb-6">
+                    <span class="disp text-[30px] md:text-[36px] font-bold">$19</span>
+                    <span class="text-[var(--ink-muted)] text-[13px] md:text-[14px]">/mo</span>
+                </div>
+                <a href="/login"
+                    class="w-full text-center block py-2.5 md:py-3 px-4 rounded-lg bg-[var(--amber)] text-[#1A1206] text-[12px] md:text-[13px] font-semibold hover:brightness-110 transition-colors mb-6 md:mb-8">Subscribe
+                    to Pro</a>
+
+                <div class="flex-1">
+                    <ul class="space-y-3 md:space-y-4 text-[12px] md:text-[13px] text-[var(--ink)]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--teal)]">✦</span> <span><strong>15</strong> Keywords &
+                                <strong>10</strong> Subreddits</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--teal)]">✦</span> <span>Up to <strong>500</strong> leads/mo</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--teal)]">✦</span> <span><strong>Instant Telegram
+                                    Alerts</strong></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--teal)]">✦</span> <span><strong>Intent Scoring
+                                    Engine</strong></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Growth -->
+            <div
+                class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-2xl p-6 md:p-8 flex flex-col hover:border-[var(--amber)] transition-colors">
+                <h3 class="disp text-[18px] md:text-[20px] font-semibold mb-1 md:mb-2">Growth</h3>
+                <p class="text-[12px] md:text-[13px] text-[var(--ink-muted)] mb-4 md:mb-6">For agencies and heavy volume brands.</p>
+                <div class="mb-4 md:mb-6">
+                    <span class="disp text-[30px] md:text-[36px] font-bold">$49</span>
+                    <span class="text-[var(--ink-muted)] text-[13px] md:text-[14px]">/mo</span>
+                </div>
+                <a href="/login"
+                    class="w-full text-center block py-2.5 md:py-3 px-4 rounded-lg bg-white text-black text-[12px] md:text-[13px] font-semibold hover:bg-gray-200 transition-colors mb-6 md:mb-8">Subscribe
+                    to Growth</a>
+
+                <div class="flex-1">
+                    <ul class="space-y-3 md:space-y-4 text-[12px] md:text-[13px] text-[var(--ink)]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>Unlimited</strong> Keywords &
+                                Subreddits</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>Unlimited</strong> leads/mo</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>AI Reply Generator</strong>
+                                (50/mo)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[var(--amber)]">✦</span> <span><strong>Full Brand Profile</strong> & CSV
+                                Export</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="line-top py-6 md:py-10 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-[var(--ink-muted)]">
+            <span class="mono">© 2026 LeadVigil — radar on, always.</span>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <a href="/pricing" class="hover:text-[var(--ink)]">Pricing</a>
+                <a href="/terms" class="hover:text-[var(--ink)]">Terms</a>
+                <a href="/privacy" class="hover:text-[var(--ink)]">Privacy</a>
+                <a href="/refund" class="hover:text-[var(--ink)]">Refunds</a>
+                <a href="/contact" class="hover:text-[var(--ink)]">Contact</a>
+            </div>
+        </div>
+    </footer>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <header class="max-w-6xl mx-auto px-5 sm:px-6 pt-32 sm:pt-40 lg:pt-48 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[90vh]">
-    <div class="flex flex-col items-center text-center lg:items-start lg:text-left z-10">
-      <div class="inline-flex items-center gap-2 mono text-[10px] sm:text-[11px] font-semibold text-[var(--amber)] mb-6 sm:mb-8 tracking-wider bg-[var(--amber)]/10 px-3 py-1.5 rounded-full border border-[var(--amber)]/20">
-        <span class="status-dot w-1.5 h-1.5"></span> MONITORING 5,114 SUBREDDITS
-      </div>
-      <h1 class="disp text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.05] font-bold tracking-tight mb-5 sm:mb-6 text-balance">
-        Somewhere on Reddit, someone is describing your product before they know it exists.
-      </h1>
-      <p class="text-[var(--ink-muted)] text-[16px] sm:text-[18px] leading-relaxed max-w-lg mb-8 sm:mb-10 text-balance">
-        LeadVigil reads public discussions that match your buyer's language, and alerts you instantly — delivered to Telegram before the thread goes cold.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
-        <a href="/login" class="btn-amber w-full sm:w-auto text-center px-8 py-3.5 sm:py-4 rounded-full text-[14px] sm:text-[15px] font-bold transition-all">Request Console Access</a>
-        <a href="#feed" class="btn-ghost w-full sm:w-auto text-center px-8 py-3.5 sm:py-4 rounded-full text-[14px] sm:text-[15px] font-semibold transition-all">Watch the Live Feed &rarr;</a>
-      </div>
-      <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 mt-8 sm:mt-10 text-[11px] sm:text-[12px] font-medium text-[var(--ink-muted)] mono">
-        <span class="flex items-center gap-1.5"><svg class="w-3 h-3 text-[var(--teal)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 14-day tracking log, free</span>
-        <span class="hidden sm:inline text-[var(--line)]">|</span>
-        <span class="flex items-center gap-1.5"><svg class="w-3 h-3 text-[var(--teal)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> No card required</span>
-      </div>
-    </div>
-
-    <!-- Radar visual -->
-    <div class="flex justify-center lg:justify-end w-full px-4 sm:px-8 lg:px-0">
-      <div class="radar-wrap">
-        <div class="radar-ring" style="inset:0;"></div>
-        <div class="radar-ring" style="inset:14%;"></div>
-        <div class="radar-ring" style="inset:28%;"></div>
-        <div class="radar-ring" style="inset:42%;"></div>
-        <div class="radar-face">
-          <div class="crosshair"></div>
-          <div class="radar-sweep"></div>
-        </div>
-        <div class="blip" style="top:28%; left:62%; --delay:0.35s;"></div>
-        <div class="tag" style="top:28%; left:62%; --delay:0.35s;">r/SaaS · "alternative"</div>
-
-        <div class="blip t" style="top:60%; left:30%; --delay:3.04s;"></div>
-        <div class="tag" style="top:60%; left:30%; --delay:3.04s;">r/Entrepreneur · "tool"</div>
-
-        <div class="blip" style="top:70%; left:68%; --delay:1.72s;"></div>
-        <div class="tag" style="top:70%; left:68%; --delay:1.72s;">r/marketing · "need"</div>
-      </div>
-    </div>
-  </header>
-
-  <!-- The Signal -->
-  <section id="signal" class="max-w-6xl mx-auto px-5 sm:px-6 py-20 lg:py-32 line-top">
-    <div class="mb-12 md:mb-16 max-w-xl mx-auto md:mx-0 text-center md:text-left">
-      <span class="mono text-[11px] font-semibold text-[var(--amber)] tracking-widest uppercase">The Signal</span>
-      <h2 class="disp text-[32px] sm:text-[40px] font-bold tracking-tight mt-3 leading-tight">Three things the radar does. Nothing else.</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-px bg-[var(--line)] rounded-2xl overflow-hidden shadow-2xl">
-      <div class="bg-[var(--bg-panel)] p-8 sm:p-10 flex flex-col items-center md:items-start text-center md:text-left transition-colors hover:bg-[var(--bg-panel-2)]">
-        <span class="num bg-[var(--line)] px-2 py-0.5 rounded">01</span>
-        <h3 class="disp text-[22px] font-bold mt-6 mb-3 text-white">Scan</h3>
-        <p class="text-[var(--ink-muted)] text-[15px] leading-relaxed">Reads public Reddit discussions matching exactly how your buyers actually talk.</p>
-      </div>
-      <div class="bg-[var(--bg-panel)] p-8 sm:p-10 flex flex-col items-center md:items-start text-center md:text-left transition-colors hover:bg-[var(--bg-panel-2)]">
-        <span class="num bg-[var(--line)] px-2 py-0.5 rounded">02</span>
-        <h3 class="disp text-[22px] font-bold mt-6 mb-3 text-white">Filter</h3>
-        <p class="text-[var(--ink-muted)] text-[15px] leading-relaxed">Matches your configured keywords and intent phrases the moment a relevant post goes live.</p>
-      </div>
-      <div class="bg-[var(--bg-panel)] p-8 sm:p-10 flex flex-col items-center md:items-start text-center md:text-left transition-colors hover:bg-[var(--bg-panel-2)]">
-        <span class="num bg-[var(--line)] px-2 py-0.5 rounded">03</span>
-        <h3 class="disp text-[22px] font-bold mt-6 mb-3 text-white">Alert</h3>
-        <p class="text-[var(--ink-muted)] text-[15px] leading-relaxed">Direct Telegram notification with the link and context, so you can respond and start a conversation.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Live feed preview -->
-  <section id="feed" class="max-w-4xl mx-auto px-5 sm:px-6 py-20 lg:py-32 line-top">
-    <div class="flex flex-col sm:flex-row items-center sm:items-end justify-between mb-10 gap-6 text-center sm:text-left">
-      <div>
-        <span class="mono text-[11px] font-semibold text-[var(--amber)] tracking-widest uppercase">Live Feed Sample</span>
-        <h2 class="disp text-[32px] sm:text-[40px] font-bold tracking-tight mt-3">What lands in your console.</h2>
-      </div>
-      <a href="/dashboard" class="btn-ghost w-full sm:w-auto px-6 py-3 rounded-full text-[14px] font-semibold whitespace-nowrap transition-all">Open full console &rarr;</a>
-    </div>
-
-    <div class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden group">
-      <div class="absolute inset-0 bg-gradient-to-br from-[var(--bg-panel-2)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-      
-      <div class="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4 relative z-10">
-        <div class="flex flex-wrap items-center gap-3">
-          <span class="px-3 py-1 bg-[#1A1C1E] border border-[var(--line)] rounded-md text-[11px] sm:text-[12px] mono text-[var(--ink-muted)] font-medium">r/Entrepreneur</span>
-          <span class="mono text-[11px] sm:text-[12px] text-[var(--ink-muted)]">2026-06-26 09:14</span>
-        </div>
-        <div class="flex items-center gap-2 bg-[var(--teal)]/10 border border-[var(--teal)]/20 px-3 py-1 rounded-full">
-          <span class="status-dot w-1.5 h-1.5 bg-[var(--teal)] shadow-[0_0_8px_var(--teal)]"></span>
-          <span class="mono text-[11px] text-[var(--teal)] font-bold tracking-wide">HIGH INTENT</span>
-        </div>
-      </div>
-      
-      <h3 class="disp text-[18px] sm:text-[22px] font-medium mb-6 leading-relaxed text-white relative z-10">"I'm tired of Zapier. Are there any cheaper alternatives that don't break every week?"</h3>
-      
-      <div class="field-card p-5 sm:p-6 rounded-xl relative z-10 border border-[#D9D3C2]/20">
-        <div class="flex items-center gap-2 mb-3">
-          <svg class="w-4 h-4 text-[#8A5E1F]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          <span class="mono text-[10px] sm:text-[11px] tracking-widest text-[#8A5E1F] font-bold uppercase">Detected Signal</span>
-        </div>
-        <p class="mono text-[13px] sm:text-[14px] text-[#2A271F] font-medium">Matched Keyword: <span class="bg-[#2A271F] text-white px-2 py-0.5 rounded">alternatives</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section id="pricing" class="max-w-6xl mx-auto px-5 sm:px-6 py-20 lg:py-32 line-top">
-    <div class="text-center mb-12 md:mb-16">
-      <span class="mono text-[11px] font-semibold text-[var(--amber)] tracking-widest uppercase">Pricing</span>
-      <h2 class="disp text-[32px] sm:text-[40px] font-bold tracking-tight mt-3">One customer pays for the year.</h2>
-      <p class="text-[16px] sm:text-[18px] text-[var(--ink-muted)] max-w-xl mx-auto mt-4 text-balance">Choose the plan that fits your growth stage. Upgrade or downgrade at any time.</p>
-    </div>
-    
-    <div class="grid lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto items-stretch">
-      
-      <!-- Starter -->
-      <div class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-3xl p-8 flex flex-col hover:border-[var(--line)] hover:bg-[var(--bg-panel-2)] transition-all">
-        <h3 class="disp text-[22px] font-bold mb-2 text-white">Starter</h3>
-        <p class="text-[14px] text-[var(--ink-muted)] mb-8 h-10">For individuals exploring Reddit lead generation.</p>
-        <div class="mb-8 flex items-baseline gap-1">
-          <span class="disp text-[44px] font-bold text-white">$0</span>
-          <span class="text-[var(--ink-muted)] text-[15px] font-medium">/mo</span>
-        </div>
-        <a href="/login" class="w-full text-center block py-3.5 px-4 rounded-xl bg-[var(--line)] text-white text-[14px] font-semibold hover:bg-white/10 transition-colors mb-10">Get Started Free</a>
-        
-        <div class="flex-1">
-          <ul class="space-y-4 text-[14px] text-[var(--ink-muted)]">
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>1</strong> Keyword & <strong>1</strong> Subreddit</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span>Up to <strong>30</strong> leads/mo</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>7-day</strong> history</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>Instant Telegram Alerts</strong></span></li>
-            <li class="flex items-start gap-3 opacity-50"><span class="text-[var(--ink-muted)] font-bold">✕</span> <span>No AI Replies</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Pro -->
-      <div class="relative bg-[#131511] rounded-3xl p-8 flex flex-col border border-[var(--teal)]/40 shadow-[0_0_40px_rgba(54,226,163,0.06)] transform lg:-translate-y-4 z-10">
-        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--teal)] text-[#0B1510] px-4 py-1.5 rounded-full text-[11px] font-black tracking-widest uppercase shadow-lg">Most Popular</div>
-        <h3 class="disp text-[22px] font-bold mb-2 text-white">Pro</h3>
-        <p class="text-[14px] text-[var(--ink-muted)] mb-8 h-10">For startups and small teams actively growing.</p>
-        <div class="mb-8 flex items-baseline gap-1">
-          <span class="disp text-[44px] font-bold text-white">$19</span>
-          <span class="text-[var(--ink-muted)] text-[15px] font-medium">/mo</span>
-        </div>
-        <a href="/login" class="w-full text-center block py-3.5 px-4 rounded-xl bg-[var(--teal)] text-[#0B1510] text-[14px] font-bold hover:brightness-110 transition-all shadow-lg shadow-[var(--teal)]/20 mb-10">Subscribe to Pro</a>
-        
-        <div class="flex-1">
-          <ul class="space-y-4 text-[14px] text-[var(--ink)]">
-            <li class="flex items-start gap-3"><span class="text-[var(--teal)] font-bold">✦</span> <span><strong>15</strong> Keywords & <strong>10</strong> Subreddits</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--teal)] font-bold">✦</span> <span>Up to <strong>500</strong> leads/mo</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--teal)] font-bold">✦</span> <span><strong>Instant Telegram Alerts</strong></span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--teal)] font-bold">✦</span> <span><strong>Intent Scoring Engine</strong></span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--teal)] font-bold">✦</span> <span><strong>Priority Support</strong></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Growth -->
-      <div class="bg-[var(--bg-panel)] border border-[var(--line)] rounded-3xl p-8 flex flex-col hover:border-[var(--line)] hover:bg-[var(--bg-panel-2)] transition-all">
-        <h3 class="disp text-[22px] font-bold mb-2 text-white">Growth</h3>
-        <p class="text-[14px] text-[var(--ink-muted)] mb-8 h-10">For agencies and heavy volume brands.</p>
-        <div class="mb-8 flex items-baseline gap-1">
-          <span class="disp text-[44px] font-bold text-white">$49</span>
-          <span class="text-[var(--ink-muted)] text-[15px] font-medium">/mo</span>
-        </div>
-        <a href="/login" class="w-full text-center block py-3.5 px-4 rounded-xl bg-white text-black text-[14px] font-bold hover:bg-gray-200 transition-colors mb-10">Subscribe to Growth</a>
-        
-        <div class="flex-1">
-          <ul class="space-y-4 text-[14px] text-[var(--ink)]">
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>Unlimited</strong> Keywords & Subreddits</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>Unlimited</strong> leads/mo</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>AI Reply Generator</strong> (50/mo)</span></li>
-            <li class="flex items-start gap-3"><span class="text-[var(--amber)] font-bold">✦</span> <span><strong>Full Brand Profile</strong> & CSV Export</span></li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <footer class="border-t border-[var(--line)] py-12 lg:py-16 bg-[#08090A]">
-    <div class="max-w-6xl mx-auto px-5 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4 text-[13px] text-[var(--ink-muted)] text-center md:text-left">
-      <div class="flex items-center gap-3">
-        <div class="w-5 h-5 rounded-full border border-[var(--ink-muted)] flex items-center justify-center opacity-60">
-          <span class="status-dot w-1 h-1 bg-[var(--ink-muted)] shadow-none"></span>
-        </div>
-        <span class="mono opacity-80 font-medium">© 2026 LeadVigil. Radar active.</span>
-      </div>
-      <div class="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-4 font-medium">
-        <a href="/pricing" class="hover:text-white transition-colors">Pricing</a>
-        <a href="/contact" class="hover:text-white transition-colors">Contact</a>
-        <a href="/terms" class="hover:text-white transition-colors">Terms</a>
-        <a href="/privacy" class="hover:text-white transition-colors">Privacy</a>
-        <a href="/refund" class="hover:text-white transition-colors">Refunds</a>
-      </div>
-    </div>
-  </footer>
-
 </body>
+
 </html>
