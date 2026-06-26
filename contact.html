@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | LeadVigil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0A0C0D; --bg-panel:#14171A; --bg-panel-2:#1A1E21;
+    --amber:#FFAA33; --teal:#3ED9A3; 
+    --ink:#F2F1ED; --ink-muted:#878D92; --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--bg-deep); color:var(--ink); font-family:'Inter',sans-serif;}
+  .disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .line-top{border-top:1px solid var(--line);}
+  .line-bot{border-bottom:1px solid var(--line);}
+  .status-dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal);}
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+  
+  <!-- Nav -->
+  <nav class="line-bot" style="background:rgba(10,12,13,.7);">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-full border border-[var(--amber)] flex items-center justify-center">
+          <span class="status-dot"></span>
+        </div>
+        <span class="disp font-semibold tracking-tight text-[15px]">LeadVigil</span>
+      </a>
+      <div class="flex items-center gap-5">
+        <a href="/login" class="text-[13px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">Log in</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-20 flex-1 flex flex-col items-center justify-center">
+    <article class="bg-[var(--bg-panel)] p-8 md:p-12 rounded-3xl border border-[var(--line)] shadow-xl text-center">
+      <h1 class="disp text-[40px] font-bold mb-4 text-white">Have a question?</h1>
+      <p class="text-[18px] text-[var(--ink)] mb-4">Email us at <a href="mailto:support@leadvigil.com" class="text-[var(--amber)] font-semibold hover:underline">support@leadvigil.com</a></p>
+      <p class="text-[14px] text-[var(--ink-muted)]">We respond within 2 business days.</p>
+    </article>
+  </main>
+
+  <footer class="line-top py-10 mt-auto">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-[12px] text-[var(--ink-muted)]">
+      <span class="mono">© 2026 LeadVigil — radar on, always.</span>
+      <div class="flex gap-6">
+        <a href="/pricing" class="hover:text-[var(--ink)]">Pricing</a>
+        <a href="/terms" class="hover:text-[var(--ink)]">Terms</a>
+        <a href="/privacy" class="hover:text-[var(--ink)]">Privacy</a>
+        <a href="/refund" class="hover:text-[var(--ink)]">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

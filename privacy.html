@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | LeadVigil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0A0C0D; --bg-panel:#14171A; --bg-panel-2:#1A1E21;
+    --amber:#FFAA33; --teal:#3ED9A3; 
+    --ink:#F2F1ED; --ink-muted:#878D92; --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--bg-deep); color:var(--ink); font-family:'Inter',sans-serif;}
+  .disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .line-top{border-top:1px solid var(--line);}
+  .line-bot{border-bottom:1px solid var(--line);}
+  .status-dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal);}
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+  
+  <!-- Nav -->
+  <nav class="line-bot" style="background:rgba(10,12,13,.7);">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-full border border-[var(--amber)] flex items-center justify-center">
+          <span class="status-dot"></span>
+        </div>
+        <span class="disp font-semibold tracking-tight text-[15px]">LeadVigil</span>
+      </a>
+      <div class="flex items-center gap-5">
+        <a href="/login" class="text-[13px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">Log in</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-20 flex-1">
+    <article class="bg-[var(--bg-panel)] p-8 md:p-12 rounded-3xl border border-[var(--line)] shadow-xl prose prose-invert prose-amber max-w-none">
+      
+      <h1 class="disp text-[40px] font-bold mb-4">Privacy Policy</h1>
+      <p class="text-[var(--ink-muted)] mb-8"><strong>Effective Date:</strong> July 1, 2025</p>
+
+      <p>LeadVigil ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the LeadVigil website and SaaS platform (the "Service").</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">1. Information We Collect</h2>
+      <p>We collect information that you provide directly to us and information generated automatically through your use of the Service.</p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><strong>Account Data:</strong> When you register, we collect your email address for authentication via one-time passcodes (OTP).</li>
+        <li><strong>Billing and Payment Data:</strong> We do not collect or store full credit card numbers. All payment processing is handled securely by our Merchant of Record, Paddle. Paddle may share limited billing details (e.g., subscription status, plan type) with us to provision your account.</li>
+        <li><strong>Integration Data:</strong> If you enable notifications, we collect your Telegram Chat ID.</li>
+        <li><strong>Service Configuration Data:</strong> We store the keywords, subreddits, and brand profile information (such as product descriptions and target audience) you configure within the Service.</li>
+        <li><strong>Usage and Analytics Data:</strong> We automatically collect data regarding your interaction with the Service, such as IP addresses, browser types, log data, and performance metrics, utilizing cookies and analytics tools.</li>
+        <li><strong>Public Feed Data:</strong> As part of the core functionality, the Service temporarily processes and stores public posts from Reddit RSS feeds that match your configured keywords.</li>
+      </ul>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">2. How We Use Your Information</h2>
+      <p>We use the collected data to:</p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li>Provide, maintain, and improve the Service.</li>
+        <li>Authenticate your login requests via email OTP.</li>
+        <li>Send real-time lead alerts to your connected Telegram account.</li>
+        <li>Generate AI draft suggestions based on your brand profile.</li>
+        <li>Process subscription upgrades and manage your billing status via Paddle.</li>
+        <li>Monitor for fraud, unauthorized multiple accounts, and abuse of the Service.</li>
+        <li>Send administrative emails, updates, and customer support responses.</li>
+      </ul>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">3. Lawful Bases for Processing</h2>
+      <p>We process your personal data on the following lawful bases:</p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><strong>Contractual Necessity:</strong> To provide the Service and fulfill our Terms of Service.</li>
+        <li><strong>Legitimate Interests:</strong> To improve our platform, prevent fraud, and conduct analytics.</li>
+        <li><strong>Consent:</strong> Where you have explicitly opted in to specific data processing activities.</li>
+      </ul>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">4. Data Sharing with Third Parties</h2>
+      <p>We do not sell your personal data. We share data only with trusted third-party processors necessary to operate the Service:</p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li><strong>Paddle:</strong> For payment processing, tax calculation, and subscription management.</li>
+        <li><strong>Resend:</strong> For delivering OTP login emails and transactional messages.</li>
+        <li><strong>Telegram:</strong> To deliver alert notifications to your device.</li>
+        <li><strong>AI Providers (e.g., OpenAI):</strong> Your brand profile inputs and the public Reddit posts may be transmitted securely to AI providers solely for the purpose of generating draft reply suggestions.</li>
+      </ul>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">5. Data Retention</h2>
+      <p>We retain your account data for as long as your account is active. System logs, analytics, and matched public posts are retained for 90 days before being securely deleted or anonymized.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">6. Security</h2>
+      <p>We implement reasonable technical and organizational measures to protect your data. However, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">7. Your Privacy Rights</h2>
+      <p>Depending on your jurisdiction, you may have the right to access, correct, delete, or restrict the processing of your personal data. You can manage your account data directly in your dashboard or contact us to exercise your rights.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">8. Children's Privacy</h2>
+      <p>The Service is not intended for children under the age of 18. We do not knowingly collect personal information from minors.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">9. Changes to this Policy</h2>
+      <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the updated policy on our website and updating the Effective Date.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">10. Contact Information</h2>
+      <p>For any privacy-related inquiries, please contact our Privacy Officer at <a href="mailto:privacy@leadvigil.com" class="text-[var(--amber)] hover:underline">privacy@leadvigil.com</a>.</p>
+
+    </article>
+  </main>
+
+  <footer class="line-top py-10 mt-auto">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-[12px] text-[var(--ink-muted)]">
+      <span class="mono">© 2026 LeadVigil — radar on, always.</span>
+      <div class="flex gap-6">
+        <a href="/pricing" class="hover:text-[var(--ink)]">Pricing</a>
+        <a href="/terms" class="hover:text-[var(--ink)]">Terms</a>
+        <a href="/privacy" class="text-[var(--ink)]">Privacy</a>
+        <a href="/refund" class="hover:text-[var(--ink)]">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

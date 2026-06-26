@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Policy | LeadVigil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0A0C0D; --bg-panel:#14171A; --bg-panel-2:#1A1E21;
+    --amber:#FFAA33; --teal:#3ED9A3; 
+    --ink:#F2F1ED; --ink-muted:#878D92; --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--bg-deep); color:var(--ink); font-family:'Inter',sans-serif;}
+  .disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .line-top{border-top:1px solid var(--line);}
+  .line-bot{border-bottom:1px solid var(--line);}
+  .status-dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal);}
+</style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+  
+  <!-- Nav -->
+  <nav class="line-bot" style="background:rgba(10,12,13,.7);">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-full border border-[var(--amber)] flex items-center justify-center">
+          <span class="status-dot"></span>
+        </div>
+        <span class="disp font-semibold tracking-tight text-[15px]">LeadVigil</span>
+      </a>
+      <div class="flex items-center gap-5">
+        <a href="/login" class="text-[13px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors">Log in</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-6 py-20 flex-1">
+    <article class="bg-[var(--bg-panel)] p-8 md:p-12 rounded-3xl border border-[var(--line)] shadow-xl prose prose-invert prose-amber max-w-none">
+      
+      <h1 class="disp text-[40px] font-bold mb-4">Refund Policy</h1>
+      <p class="text-[var(--ink-muted)] mb-8"><strong>Effective Date:</strong> July 1, 2025</p>
+
+      <p>At LeadVigil, we want to ensure our customers are satisfied while maintaining a sustainable software business. This Refund Policy outlines how we handle subscription cancellations and refund requests for the LeadVigil service, processed by our Merchant of Record, Paddle.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">1. Subscription Billing Overview</h2>
+      <p>LeadVigil is a subscription-based service billed on a recurring basis (monthly or annually). Your subscription will automatically renew at the end of each billing cycle unless you cancel it prior to the renewal date.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">2. How to Cancel</h2>
+      <p>You can cancel your subscription at any time directly from your LeadVigil account settings dashboard, or by visiting <a href="https://leadvigil.com/settings" class="text-[var(--amber)] hover:underline">leadvigil.com/settings</a>.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">3. Effect of Cancellation</h2>
+      <p>When you cancel your subscription, the cancellation takes effect at the end of your current paid billing period. You will not be charged again. You will continue to have full access to your paid plan's features until that billing cycle concludes. We do not provide prorated refunds for partially used months.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">4. Refund Window</h2>
+      <p>We offer a 7 days money-back guarantee for initial subscription purchases. If you are unsatisfied with the Service within the first 7 days of your original purchase, you may request a full refund.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">5. Treatment of Renewals</h2>
+      <p>Refunds are generally not provided for automatic subscription renewals. It is your responsibility to cancel your subscription prior to the renewal date if you no longer wish to use the Service. We send billing reminders prior to annual renewals in accordance with Paddle's policies.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">6. Exceptions and Billing Mistakes</h2>
+      <p>If you believe you were charged due to a technical error, duplicate charge, or fraudulent use of your payment method, please contact us immediately. Such issues will be reviewed and refunded promptly upon verification.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">7. Situations Where Refunds May Be Denied</h2>
+      <p>We reserve the right to deny a refund request if:</p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li>The request is made outside of the stated 7 days window.</li>
+        <li>The account was suspended or terminated due to a violation of our Terms of Service (e.g., using the platform for spam or harassment).</li>
+        <li>We detect abuse of our refund policy (e.g., repeatedly subscribing and requesting refunds).</li>
+      </ul>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">8. How to Request a Refund</h2>
+      <p>To request a refund within the eligible window, please email our support team at <a href="mailto:support@leadvigil.com" class="text-[var(--amber)] hover:underline">support@leadvigil.com</a> with your account email address and the reason for your request. Our team will review and respond to your request within 2-3 business days.</p>
+
+      <h2 class="text-[24px] font-bold mt-10 mb-4 text-white">9. Statutory Rights</h2>
+      <p>Nothing in this policy affects any statutory rights you may have under the consumer laws applicable in your jurisdiction (England and Wales).</p>
+
+    </article>
+  </main>
+
+  <footer class="line-top py-10 mt-auto">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-between gap-4 text-[12px] text-[var(--ink-muted)]">
+      <span class="mono">© 2026 LeadVigil — radar on, always.</span>
+      <div class="flex gap-6">
+        <a href="/pricing" class="hover:text-[var(--ink)]">Pricing</a>
+        <a href="/terms" class="hover:text-[var(--ink)]">Terms</a>
+        <a href="/privacy" class="hover:text-[var(--ink)]">Privacy</a>
+        <a href="/refund" class="text-[var(--ink)]">Refunds</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
